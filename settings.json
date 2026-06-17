@@ -2,5 +2,10 @@
   "server_ip": "212.41.30.76",
   "server_port": "25565",
   "launcher_version": "1.0.1",
-  "update_url": "https://github.com/milkycloud-dev/melody-launcher-minecraft/releases/latest"
+  "update_url": "https://github.com/milkycloud-dev/melody-launcher-minecraft/releases/latest",
+  "link_telegram": "https://t.me/inflexus",
+  "link_discord": "https://discord.gg/wH4Dz62fFD",
+  "link_shop": "https://notebuns.inflexus.world",
+  "link_news": "https://t.me/inflexus",
+  "link_resources": "https://notebuns.inflexus.world/resources"
 }
