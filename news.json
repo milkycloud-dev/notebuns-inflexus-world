@@ -1,0 +1,16 @@
+[
+  {
+    "id": "1",
+    "title": "Добро пожаловать в NoteBuns!",
+    "description": "Мы рады приветствовать вас на нашем новом сервере. Следите за обновлениями и приятной игры!",
+    "image_url": "https://notebuns.inflexus.world/images/note.jpg",
+    "link": "https://discord.gg/wH4Dz62fFD"
+  },
+  {
+    "id": "2",
+    "title": "Наши новые Втуберы",
+    "description": "Обязательно загляните на трансляции к нашим замечательным стримерам, они играют прямо сейчас!",
+    "image_url": "https://notebuns.inflexus.world/images/cinaminnie_background.png",
+    "link": "https://notebuns.inflexus.world/vtubers.html"
+  }
+]
