@@ -4,7 +4,6 @@
   "launcher_version": "1.0.1",
   "update_url": "https://github.com/milkycloud-dev/melody-launcher-minecraft/releases/latest",
   "manifest_url": "https://download.inflexus.world/new/manifest.json",
-  "telemetry_webhook": "",
   "link_telegram": "https://t.me/inflexus",
   "link_discord": "https://discord.gg/wH4Dz62fFD",
   "link_shop": "https://notebuns.inflexus.world",
