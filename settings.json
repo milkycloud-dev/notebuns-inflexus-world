@@ -11,6 +11,7 @@
   "link_resources": "https://notebuns.inflexus.world/resources",
   "enable_vtubers": true,
   "enable_news": true,
+  "gamelog": true,
   "launcher_bg": "/images/note.jpg",
   "launcher_logo": "/images/bun.png",
   "java_args": ""
