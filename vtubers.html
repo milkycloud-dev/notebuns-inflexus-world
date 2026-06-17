@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+    <title>Втуберы | NoteBuns</title>
+    <meta name="description"
+        content="Втуберы проекта NoteBuns. Стримеры, которые играют на нашем сервере и создают атмосферу в прямом эфире.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=1">
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                    stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="logo-icon">
+                    <path d="M9 18V5l12-2v13"></path>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+                <span>Note<span class="highlight">Buns</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="vtubers.html" class="active">Втуберы</a></li>
+                <li><a href="rules.html">Правила</a></li>
+                <li><a href="team.html">Команда</a></li>
+                <li><a href="https://notebuns.easydonate.ru/" class="btn-store external-store-link"
+                        target="_blank" rel="noopener noreferrer">Магазин</a></li>
+            </ul>
+            <div class="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header reveal">
+        <div class="badge">Лица Проекта</div>
+        <h1 class="hero-title"><span class="gradient-text">Наши</span> Втуберы</h1>
+        <p class="hero-subtitle">Встречайте фантастических стримеров, которые играют на нашем сервере и создают
+            неповторимую атмосферу в прямом эфире!</p>
+    </header>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="vtuber-grid">
+
+            <!-- CinaMinnie Card -->
+            <a href="https://www.twitch.tv/cinaminnie" target="_blank"
+                class="vtuber-card cinaminnie-theme glass reveal tilt-card">
+                <div class="card-content">
+                    <div class="vtuber-backdrop">
+                        <div class="animated-blob"></div>
+                    </div>
+                    <div class="vtuber-avatar">
+                        <img src="images/cinaminnie_avatar.png"
+                            onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23FFAA00\' stroke-width=\'2\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path><circle cx=\'12\' cy=\'7\' r=\'4\'></circle></svg>'"
+                            alt="CinaMinnie">
+                    </div>
+                    <h2 class="vtuber-name">CinaMinnie</h2>
+                    <div class="vtuber-role">Пекущая булки</div>
+                    <div class="vtuber-chat">
+                        <div class="chat-message delay-1">⊹ ♡ ˖ Прииивеет, я Синамини!!!˖♡ ⊹</div>
+                        <div class="chat-message delay-2">Я синабоновая кошка!</div>
+                        <div class="chat-message delay-3">Я ооочень люблю выпечку (особенно с корицей) и бабл чай!</div>
+                        <div class="chat-message highlight-msg delay-4">Я стримлю в основном игры, но очень люблю
+                            болтать и вязать!</div>
+                        <div class="chat-message delay-5">Я играю как могу, (как супер профи) и у меня лапки! Я вас
+                            предупредила!</div>
+                    </div>
+                    <div class="stream-info" id="cinaminnie-stream" style="display: none;">
+                        <span class="live-dot"></span>
+                        <span class="stream-title">Загрузка стрима...</span>
+                    </div>
+                    <div class="twitch-btn">Смотреть на Twitch <svg xmlns="http://www.w3.org/2000/svg" width="18"
+                            height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 2H3v16h5v4l4-4h5l4-4V2zm-2 9h-2v2h-2v-2h-2v2h-2v-2H9V7h2v2h2V7h2v2h2v2z" />
+                        </svg></div>
+                </div>
+            </a>
+
+            <!-- Meowlody Note Card -->
+            <a href="https://www.twitch.tv/meowlody_note" target="_blank"
+                class="vtuber-card meowlody-theme glass reveal tilt-card">
+                <div class="card-content">
+                    <div class="vtuber-backdrop">
+                        <div class="animated-blob"></div>
+                    </div>
+                    <div class="vtuber-avatar">
+                        <img src="images/meowlody_note_avatar.png"
+                            onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'100\' height=\'100\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23AA00AA\' stroke-width=\'2\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path><circle cx=\'12\' cy=\'7\' r=\'4\'></circle></svg>'"
+                            alt="Meowlody Note">
+                    </div>
+                    <h2 class="vtuber-name">Meowlody Note</h2>
+                    <div class="vtuber-role">Музыкальная Фея</div>
+                    <div class="vtuber-chat">
+                        <div class="chat-message m-delay-1">Привет! Меня зовут Мелоди Ноут!</div>
+                        <div class="chat-message m-delay-2">Ещё с детства я мечтала стать айдолом, но ни одна компания
+                            меня не приняла.</div>
+                        <div class="chat-message m-delay-3">Вынеся вердикт, что я никто иной, как самая настоящая
+                            посредственность.</div>
+                        <div class="chat-message highlight-msg m-delay-4">Думаете меня это остановило? Как бы ни так!!!!
+                        </div>
+                    </div>
+                    <div class="stream-info" id="meowlody-stream" style="display: none;">
+                        <span class="live-dot"></span>
+                        <span class="stream-title">Загрузка стрима...</span>
+                    </div>
+                    <div class="twitch-btn">Смотреть на Twitch <svg xmlns="http://www.w3.org/2000/svg" width="18"
+                            height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 2H3v16h5v4l4-4h5l4-4V2zm-2 9h-2v2h-2v-2h-2v2h-2v-2H9V7h2v2h2V7h2v2h2v2z" />
+                        </svg></div>
+                </div>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content reveal">
+            <div class="footer-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                    stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18V5l12-2v13"></path>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+                <span style="font-size: 1.5rem; font-weight: 800; margin-left:10px;">Note<span
+                        class="highlight">Buns</span></span>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 10px; color: #fff;">Ссылки</h4>
+                <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <a href="https://discord.gg/wH4Dz62fFD" style="color: var(--text-muted); text-decoration: none;" target="_blank">Discord</a>
+                    <a href="https://t.me/inflexus" style="color: var(--text-muted); text-decoration: none;" target="_blank">Telegram</a>
+                </div>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 10px; color: #fff;">Информация</h4>
+                <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <a href="rules.html" style="color: var(--text-muted); text-decoration: none;">Правила</a>
+                    <a href="https://notebuns.easydonate.ru/" class="external-store-link"
+                        style="color: var(--text-muted); text-decoration: none;" target="_blank"
+                        rel="noopener noreferrer">Магазин</a>
+                    <a href="team.html" style="color: var(--text-muted); text-decoration: none;">Команда</a>
+                </div>
+            </div>
+        </div>
+        <div
+            style="text-align: center; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+            &copy; 2026 NoteBuns. Данный сервер никак не связан с Mojang AB или Microsoft.
+        </div>
+    </footer>
+
+    <script src="site-config.js?v=1"></script>
+    <script src="script.js?v=1"></script>
+</body>
+
+</html>

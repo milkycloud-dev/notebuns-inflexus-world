@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+    <title>NoteBuns | Премиальный Сервер Выживания</title>
+    <meta name="description"
+        content="Уникальный Minecraft сервер: музыка, ванильное выживание, пекарни и отзывчивое комьюнити.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=1">
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                    stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="logo-icon">
+                    <path d="M9 18V5l12-2v13"></path>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+                <span>Note<span class="highlight">Buns</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Главная</a></li>
+                <li><a href="vtubers.html">Втуберы</a></li>
+                <li><a href="rules.html">Правила</a></li>
+                <li><a href="team.html">Команда</a></li>
+                <li><a href="https://notebuns.easydonate.ru/" class="btn-store external-store-link"
+                        target="_blank" rel="noopener noreferrer">Магазин</a></li>
+            </ul>
+            <div class="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content reveal">
+            <div class="badge">
+                <span class="badge-dot"></span> Сезон 1 (1.21.1)
+            </div>
+            <h1 class="hero-title"><span class="gradient-text">Симфония</span> <br>Выживания</h1>
+            <p class="hero-subtitle">Строй эпические базы, выживай в суровом мире и создавай музыкальные шедевры на
+                самом атмосферном сервере СНГ.</p>
+
+            <a href="#" class="ip-wrapper" style="text-decoration: none;">
+                <div class="ip-box">
+                    <span class="ip-label">ИГРАТЬ</span>
+                    <span class="ip-address">СКАЧАТЬ ЛАУНЧЕР</span>
+                    <span class="copy-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                    </span>
+                </div>
+            </a>
+
+            <div class="online-status reveal" style="transition-delay: 0.2s; display: none;">
+                <span class="pulse"></span> <span id="online-count" class="online-count">158</span> игроков в игре
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="features section">
+        <h2 class="section-title reveal">Фишки <span class="highlight">Сервера</span></h2>
+
+        <div class="tilt-grid">
+            <div class="tilt-card reveal">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                            stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18V5l12-2v13"></path>
+                            <circle cx="6" cy="18" r="3"></circle>
+                            <circle cx="18" cy="16" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h3>Играй музыку!</h3>
+                    <p>Специальные плагины и кастомные инструменты позволяют создавать полноценные треки прямо в игре,
+                        объединяясь с друзьями в оркестры!</p>
+                </div>
+            </div>
+
+            <div class="tilt-card reveal">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                            stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v20"></path>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <h3>Пекарни!</h3>
+                    <p>Уникальная система кулинарии. Выращивай пшеницу, пеки булочки с корицей!</p>
+                </div>
+            </div>
+
+            <div class="tilt-card reveal">
+                <div class="card-content">
+                    <div class="card-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+                            stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                    <h3>Без Грифа</h3>
+                    <p>Наш сервер — безопасная зона. Приватные регионы защитят твои постройки.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content reveal">
+            <div class="footer-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                    stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18V5l12-2v13"></path>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+                <span style="font-size: 1.5rem; font-weight: 800; margin-left:10px;">Note<span
+                        class="highlight">Buns</span></span>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 10px; color: #fff;">Ссылки</h4>
+                <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <a href="https://discord.gg/wH4Dz62fFD" style="color: var(--text-muted); text-decoration: none;" target="_blank">Discord</a>
+                    <a href="https://t.me/inflexus" style="color: var(--text-muted); text-decoration: none;" target="_blank">Telegram</a>
+                </div>
+            </div>
+            <div>
+                <h4 style="margin-bottom: 10px; color: #fff;">Информация</h4>
+                <div style="display: flex; flex-direction: column; gap: 5px;">
+                    <a href="rules.html" style="color: var(--text-muted); text-decoration: none;">Правила</a>
+                    <a href="https://notebuns.easydonate.ru/" class="external-store-link"
+                        style="color: var(--text-muted); text-decoration: none;" target="_blank"
+                        rel="noopener noreferrer">Магазин</a>
+                    <a href="team.html" style="color: var(--text-muted); text-decoration: none;">Команда</a>
+                </div>
+            </div>
+        </div>
+        <div
+            style="text-align: center; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+            &copy; 2026 NoteBuns. Данный сервер никак не связан с Mojang AB или Microsoft.
+        </div>
+    </footer>
+
+    <!-- TOS Modal -->
+    <div id="tos-modal" class="modal-overlay">
+        <div class="modal-content glass">
+            <h2>Пользовательское соглашение</h2>
+            <p>Перед скачиванием лаунчера ознакомьтесь с условиями:</p>
+
+            <div class="tos-sections">
+                <div class="tos-section">
+                    <h4>Общие положения</h4>
+                    <ul>
+                        <li>Проект NoteBuns является некоммерческим игровым сервером Minecraft и никак не связан с Mojang
+                            AB или Microsoft Corporation.</li>
+                        <li>Используя лаунчер и подключаясь к серверу, вы подтверждаете согласие с данными условиями и
+                            правилами сервера.</li>
+                        <li>Администрация вправе изменять условия соглашения, уведомив об этом на сайте или в Discord.
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tos-section">
+                    <h4>Лаунчер и программное обеспечение</h4>
+                    <ul>
+                        <li>Лаунчер предоставляется «как есть» и предназначен исключительно для подключения к серверу
+                            NoteBuns.</li>
+                        <li>Лаунчер не собирает персональные данные пользователей сверх необходимого для работы (никнейм
+                            игрока, UUID).</li>
+                        <li>Запрещено декомпилировать, модифицировать или распространять лаунчер без разрешения
+                            администрации.</li>
+                    </ul>
+                </div>
+
+                <div class="tos-section">
+                    <h4>Правила поведения</h4>
+                    <ul>
+                        <li>Игрок обязан соблюдать правила сервера, опубликованные на странице «Правила».</li>
+                        <li>За нарушение правил администрация вправе ограничить доступ к серверу (мут, бан) без
+                            компенсации.</li>
+                        <li>Запрещено использование стороннего ПО, дающего преимущество (читы, макросы, x-ray).</li>
+                    </ul>
+                </div>
+
+                <div class="tos-section">
+                    <h4>Донат и платежи</h4>
+                    <ul>
+                        <li>Все пожертвования являются добровольными и направлены на поддержку проекта.</li>
+                        <li>Донат-привилегии носят косметический характер и не дают существенного игрового преимущества.
+                        </li>
+                        <li>Возврат средств осуществляется в соответствии с законодательством РФ и правилами платёжной
+                            системы.</li>
+                    </ul>
+                </div>
+
+                <div class="tos-section">
+                    <h4>Ограничение ответственности</h4>
+                    <ul>
+                        <li>Администрация не несёт ответственности за временную недоступность сервера, потерю игрового
+                            прогресса в результате технических сбоев.</li>
+                        <li>Администрация не несёт ответственности за действия третьих лиц на сервере.</li>
+                        <li>Все споры решаются путём обращения в Discord-поддержку проекта.</li>
+                    </ul>
+                </div>
+
+                <div class="tos-section">
+                    <h4>Конфиденциальность</h4>
+                    <ul>
+                        <li>Сайт не использует файлы cookie для отслеживания пользователей.</li>
+                        <li>Мы не передаём данные пользователей третьим лицам, за исключением случаев, предусмотренных
+                            законодательством РФ.</li>
+                        <li>Обработка персональных данных осуществляется в соответствии с Федеральным законом
+                            № 152-ФЗ «О персональных данных».</li>
+                    </ul>
+                </div>
+            </div>
+
+            <p class="tos-warning" style="color: var(--text-muted); font-weight: 400;">Нажимая «Принимаю», вы
+                подтверждаете, что ознакомились с условиями соглашения.</p>
+
+            <button id="agree-btn" class="btn-primary" style="width: 100%; margin-top: 20px;">ПРИНИМАЮ</button>
+        </div>
+    </div>
+
+    <div id="launcher-platform-modal" class="modal-overlay">
+        <div class="modal-content glass launcher-platform-dialog">
+            <h2>Скачать лаунчер</h2>
+            <p>Выберите вашу операционную систему</p>
+            <div class="launcher-platform-buttons">
+                <button type="button" id="launcher-win-btn" class="btn-primary launcher-os-btn">Windows (.exe)</button>
+                <button type="button" id="launcher-linux-btn"
+                    class="btn-primary launcher-os-btn launcher-os-btn-linux">Linux (.tar.gz)</button>
+            </div>
+            <button type="button" id="launcher-platform-cancel" class="launcher-platform-cancel">Отмена</button>
+        </div>
+    </div>
+
+    <script src="site-config.js?v=1"></script>
+    <script src="script.js?v=1"></script>
+</body>
+
+</html>

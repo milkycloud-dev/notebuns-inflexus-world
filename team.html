@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5">
+    <title>Команда | NoteBuns</title>
+    <meta name="description" content="Команда сервера NoteBuns. Познакомьтесь с создателями и администрацией проекта.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=1">
+</head>
+
+<body>
+    <div class="bg-texture"></div>
+
+    <nav class="navbar glass">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+                    stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="logo-icon">
+                    <path d="M9 18V5l12-2v13"></path>
+                    <circle cx="6" cy="18" r="3"></circle>
+                    <circle cx="18" cy="16" r="3"></circle>
+                </svg>
+                <span>Note<span class="highlight">Buns</span></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="vtubers.html">Втуберы</a></li>
+                <li><a href="rules.html">Правила</a></li>
+                <li><a href="team.html" class="active">Команда</a></li>
+                <li><a href="https://notebuns.easydonate.ru/" class="btn-store external-store-link"
+                        target="_blank" rel="noopener noreferrer">Магазин</a></li>
+            </ul>
+            <div class="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header reveal">
+        <div class="badge">Создатели проекта</div>
+        <h1 class="hero-title"><span class="gradient-text">Команда</span> Сервера</h1>
+        <p class="hero-subtitle">Люди, которые делают NoteBuns лучше каждый день. Вы всегда можете задать нам вопрос в
+            Discord.</p>
+    </header>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="store-grid">
+
+            <div class="tilt-card team-member glass reveal" style="grid-column: 1 / -1; max-width: 600px; margin: 0 auto;">
+                <div class="card-content">
+                    <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 20px;">
+                        <div class="team-avatar" style="margin: 0; box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.3);">
+                            <img src="https://minotar.net/helm/eturnercus/128.png" alt="eturnercus">
+                        </div>
+                        <div class="team-avatar" style="margin: 0; box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.3);">
+                            <img src="https://minotar.net/helm/Nevio/128.png" alt="Nevio">
+                        </div>
+                    </div>
+                    <div class="role admin">Основатели проекта</div>
+                    <h3 style="margin-bottom: 5px;">eturnercus &amp; Nevio</h3>
+                    <p>Создатели и главные разработчики. Занимаются координацией команды, генерацией идей и технической частью сервера.</p>
+                </div>
+            </div>
+
+            <div class="tilt-card team-member glass reveal">
+                <div class="card-content">
+                    <div class="team-avatar">
+                        <img src="https://minotar.net/helm/Vkidory/128.png" alt="Dev Avatar">
+                    </div>
+                    <div class="role dev">Разработчик</div>
+                    <h3 style="margin-bottom: 5px;">Vkidory</h3>
+                    <p>Главный технический специалист. Разрабатывает самописные плагины для нотных блоков и систем
+                        сервера.</p>
+                </div>
+            </div>
+
+            <div class="tilt-card team-member glass reveal">
+                <div class="card-content">
+                    <div class="team-avatar">
+                        <img src="https://minotar.net/helm/kirill_dirt/128.png" alt="Mod Avatar">
+                    </div>
+                    <div class="role mod">Сборка Сервера</div>
+                    <h3 style="margin-bottom: 5px;">kirill_dirt</h3>
+                    <p>Собиратель сборки. Тщательно отбирает, настраивает и тестирует моды и плагины для идеальной игры.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div
+            style="text-align: center; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--glass-border); padding-top: 20px;">
+            Хочешь в команду? Открой тикет в нашем Discord сервере!
+        </div>
+    </footer>
+
+    <script src="site-config.js?v=1"></script>
+    <script src="script.js?v=1"></script>
+</body>
+
+</html>
