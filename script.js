@@ -1,10 +1,217 @@
+// Iframe environment detection for launcher embedded views
+(function detectIframe() {
+    try {
+        if (window.self !== window.top) {
+            document.documentElement.classList.add('in-iframe');
+            if (document.body) document.body.classList.add('in-iframe');
+            else document.addEventListener('DOMContentLoaded', () => document.body && document.body.classList.add('in-iframe'));
+        }
+    } catch (e) {
+        document.documentElement.classList.add('in-iframe');
+    }
+})();
+
 function getNotebunsConfig() {
     return {
-        externalStoreUrl: 'https://notebuns.easydonate.ru/',
+        externalStoreUrl: '/store',
         launcherWindowsPath: 'downloads/NoteBuns Launcher.exe',
         launcherLinuxPath: 'downloads/NoteBuns-Launcher-Linux.AppImage',
+        newsUrl: 'https://download.inflexus.world/cloud/news/news_v3.json',
         ...(typeof window !== 'undefined' && window.NOTEBUNS_CONFIG ? window.NOTEBUNS_CONFIG : {})
     };
+}
+
+/**
+ * LiteMediaPlayer — минимальный просмотрщик image/video без библиотек.
+ * Слайды: строка URL, или { type: 'image'|'video', src, poster? }.
+ */
+class LiteMediaPlayer {
+    constructor(root) {
+        this.root = root;
+        this.imageEl = root.querySelector('#lite-player-image');
+        this.videoEl = root.querySelector('#lite-player-video');
+        this.prevBtn = root.querySelector('#lite-player-prev');
+        this.nextBtn = root.querySelector('#lite-player-next');
+        this.counterEl = root.querySelector('#lite-player-counter');
+        this.controlsEl = root.querySelector('.lite-player-controls');
+        this.slides = [];
+        this.index = 0;
+
+        this.prevBtn?.addEventListener('click', () => this.show(this.index - 1));
+        this.nextBtn?.addEventListener('click', () => this.show(this.index + 1));
+    }
+
+    static normalizeSlides(item) {
+        const raw = Array.isArray(item?.slides) ? item.slides.filter(Boolean) : [];
+        const slides = raw.map((slide) => {
+            if (typeof slide === 'string') {
+                return { type: LiteMediaPlayer.guessType(slide), src: slide };
+            }
+            const src = slide.src || slide.url || slide.image || '';
+            const type = (slide.type || LiteMediaPlayer.guessType(src)).toLowerCase();
+            return {
+                type: type.startsWith('video') ? 'video' : 'image',
+                src,
+                poster: slide.poster || ''
+            };
+        }).filter((s) => s.src);
+
+        if (!slides.length && item?.image) {
+            slides.push({ type: 'image', src: item.image });
+        }
+        return slides;
+    }
+
+    static guessType(src = '') {
+        return /\.(mp4|webm|ogg|mov)(\?|$)/i.test(src) ? 'video' : 'image';
+    }
+
+    open(item) {
+        this.slides = LiteMediaPlayer.normalizeSlides(item);
+        if (!this.slides.length) {
+            this.root.hidden = true;
+            this.stop();
+            return false;
+        }
+        this.root.hidden = false;
+        this.controlsEl?.setAttribute('data-single', this.slides.length < 2 ? 'true' : 'false');
+        this.show(0);
+        return true;
+    }
+
+    show(index) {
+        if (!this.slides.length) return;
+        this.index = (index + this.slides.length) % this.slides.length;
+        const slide = this.slides[this.index];
+
+        this.stop();
+
+        if (slide.type === 'video') {
+            this.imageEl.hidden = true;
+            this.videoEl.hidden = false;
+            this.videoEl.poster = slide.poster || '';
+            this.videoEl.src = slide.src;
+        } else {
+            this.videoEl.hidden = true;
+            this.imageEl.hidden = false;
+            this.imageEl.src = slide.src;
+            this.imageEl.alt = '';
+        }
+
+        if (this.counterEl) {
+            this.counterEl.textContent = `${this.index + 1} / ${this.slides.length}`;
+        }
+        if (this.prevBtn) this.prevBtn.disabled = this.slides.length < 2;
+        if (this.nextBtn) this.nextBtn.disabled = this.slides.length < 2;
+    }
+
+    stop() {
+        if (!this.videoEl) return;
+        this.videoEl.pause();
+        this.videoEl.removeAttribute('src');
+        this.videoEl.load();
+    }
+
+    close() {
+        this.stop();
+        this.slides = [];
+        this.index = 0;
+        if (this.imageEl) this.imageEl.removeAttribute('src');
+        this.root.hidden = true;
+    }
+}
+
+/**
+ * SkinManager — надежный сервис загрузки, кэширования и кэш-фолбэка скинов Minecraft.
+ * Обеспечивает отказоустойчивость при недоступности Mojang API / Crafatar / Visage / Minotar.
+ */
+class SkinManager {
+    constructor() {
+        this.CACHE_PREFIX = 'notebuns_skin_v1_';
+        this.CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 часа
+    }
+
+    static getSteveSvg() {
+        return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" fill="%232b2b2b"/><rect x="32" y="32" width="64" height="64" fill="%23c68a59"/><rect x="40" y="32" width="48" height="24" fill="%23563921"/><rect x="40" y="64" width="16" height="8" fill="%23ffffff"/><rect x="44" y="64" width="8" height="8" fill="%232b50bb"/><rect x="72" y="64" width="16" height="8" fill="%23ffffff"/><rect x="76" y="64" width="8" height="8" fill="%232b50bb"/><rect x="48" y="80" width="32" height="8" fill="%236e3926"/></svg>';
+    }
+
+    static getAlexSvg() {
+        return 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><rect width="128" height="128" fill="%232b2b2b"/><rect x="32" y="32" width="64" height="64" fill="%23e5a77d"/><rect x="32" y="32" width="64" height="24" fill="%23b85d26"/><rect x="40" y="64" width="16" height="8" fill="%23ffffff"/><rect x="44" y="64" width="8" height="8" fill="%232b8c50"/><rect x="72" y="64" width="16" height="8" fill="%23ffffff"/><rect x="76" y="64" width="8" height="8" fill="%232b8c50"/><rect x="48" y="80" width="32" height="8" fill="%23aa5039"/></svg>';
+    }
+
+    getProviders(username) {
+        return [
+            `https://crafatar.com/avatars/${encodeURIComponent(username)}?size=128&overlay`,
+            `https://visage.surgeplay.com/face/128/${encodeURIComponent(username)}`,
+            `https://minotar.net/helm/${encodeURIComponent(username)}/128.png`
+        ];
+    }
+
+    getFallback(username) {
+        let hash = 0;
+        for (let i = 0; i < username.length; i++) {
+            hash = (hash << 5) - hash + username.charCodeAt(i);
+            hash |= 0;
+        }
+        return (Math.abs(hash) % 2 === 0) ? SkinManager.getSteveSvg() : SkinManager.getAlexSvg();
+    }
+
+    getCachedSkin(username) {
+        try {
+            const raw = localStorage.getItem(this.CACHE_PREFIX + username.toLowerCase());
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            if (Date.now() - parsed.timestamp < this.CACHE_TTL_MS && parsed.url) {
+                return parsed.url;
+            }
+        } catch (e) {}
+        return null;
+    }
+
+    setCachedSkin(username, url) {
+        try {
+            localStorage.setItem(this.CACHE_PREFIX + username.toLowerCase(), JSON.stringify({
+                url,
+                timestamp: Date.now()
+            }));
+        } catch (e) {}
+    }
+
+    initSkins() {
+        const avatars = document.querySelectorAll('img.skin-avatar');
+        avatars.forEach((img) => {
+            const username = img.dataset.minecraftUsername || img.alt || '';
+            if (!username) return;
+
+            const cached = this.getCachedSkin(username);
+            const providers = this.getProviders(username);
+            const fallback = this.getFallback(username);
+
+            let providerIndex = 0;
+
+            if (cached) {
+                img.src = cached;
+            } else {
+                img.src = providers[0];
+            }
+
+            img.onerror = () => {
+                providerIndex++;
+                if (providerIndex < providers.length) {
+                    img.src = providers[providerIndex];
+                } else {
+                    img.src = fallback;
+                    img.onerror = null;
+                }
+            };
+
+            img.onload = () => {
+                if (img.src !== fallback && !img.src.startsWith('data:')) {
+                    this.setCachedSkin(username, img.src);
+                }
+            };
+        });
+    }
 }
 
 class NoteBunsApp {
@@ -20,12 +227,20 @@ class NoteBunsApp {
         this.simulateOnline();
         this.initTwitchIntegration();
         this.initModal();
+        this.initNews();
+        this.skinManager = new SkinManager();
+        this.skinManager.initSkins();
     }
 
     initStoreLinks() {
         const cfg = getNotebunsConfig();
-        document.querySelectorAll('a.external-store-link').forEach((a) => {
-            a.href = cfg.externalStoreUrl;
+        const storeUrl = cfg.externalStoreUrl || '/store';
+        document.querySelectorAll('a.external-store-link, a.btn-store').forEach((a) => {
+            a.href = storeUrl;
+            if (storeUrl.startsWith('/') || storeUrl.includes('notebuns.inflexus.world')) {
+                a.removeAttribute('target');
+                a.removeAttribute('rel');
+            }
         });
     }
 
@@ -216,10 +431,31 @@ class NoteBunsApp {
             const parent = el.parentElement;
             if (parent && (parent.classList.contains('tilt-grid') ||
                 parent.classList.contains('store-grid') ||
-                parent.classList.contains('vtuber-grid'))) {
+                parent.classList.contains('vtuber-grid') ||
+                parent.classList.contains('news-grid'))) {
                 const delay = window.innerWidth < 768 ? 0 : (index % 3) * 0.15;
                 el.style.transitionDelay = `${delay}s`;
             }
+            observer.observe(el);
+        });
+    }
+
+    observeReveal(elements) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    setTimeout(() => {
+                        entry.target.style.transitionDelay = '0s';
+                    }, 800);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+        elements.forEach((el, index) => {
+            const delay = window.innerWidth < 768 ? 0 : (index % 4) * 0.08;
+            el.style.transitionDelay = `${delay}s`;
             observer.observe(el);
         });
     }
@@ -351,15 +587,77 @@ class NoteBunsApp {
         document.body.removeChild(downloadLink);
     }
 
+    detectOS() {
+        const userAgent = (navigator.userAgent || navigator.vendor || window.opera || '').toLowerCase();
+        if (userAgent.includes('win')) return 'windows';
+        if (userAgent.includes('mac')) return 'mac';
+        if (userAgent.includes('linux') || userAgent.includes('x11')) return 'linux';
+        return 'windows';
+    }
+
     // 10. TOS Modal + выбор платформы лаунчера (index.html)
     initModal() {
         const downloadBtn = document.querySelector('.ip-wrapper');
-        const modal = document.getElementById('tos-modal');
+        const tosModal = document.getElementById('tos-modal');
+        const openTosLink = document.getElementById('open-tos-link');
+        const closeTosBtn = document.getElementById('close-tos-btn');
+
         const platformModal = document.getElementById('launcher-platform-modal');
-        const agreeBtn = document.getElementById('agree-btn');
         const winBtn = document.getElementById('launcher-win-btn');
         const linuxBtn = document.getElementById('launcher-linux-btn');
+        const macBtn = document.getElementById('launcher-mac-btn');
         const platformCancel = document.getElementById('launcher-platform-cancel');
+
+        const thanksModal = document.getElementById('download-thanks-modal');
+        const thanksCloseTop = document.getElementById('download-thanks-close-top');
+        const thanksCloseBtn = document.getElementById('download-thanks-close-btn');
+        const thanksOpenPlatformBtn = document.getElementById('thanks-open-platform-btn');
+        const thanksRetryBtn = document.getElementById('thanks-retry-download-btn');
+
+        const winBadge = document.getElementById('win-recommend-badge');
+        const macBadge = document.getElementById('mac-recommend-badge');
+        const linuxBadge = document.getElementById('linux-recommend-badge');
+
+        const cfg = getNotebunsConfig();
+        const githubReleasesUrl = cfg.launcherGithubReleasesUrl || 'https://github.com/milkycloud-dev/melody-launcher-minecraft/releases';
+        const userOS = this.detectOS();
+        let lastDownloadAction = null;
+
+        // Highlight detected OS badge
+        if (userOS === 'windows' && winBadge) winBadge.hidden = false;
+        if (userOS === 'mac' && macBadge) macBadge.hidden = false;
+        if (userOS === 'linux' && linuxBadge) linuxBadge.hidden = false;
+
+        const closeTos = () => {
+            if (!tosModal) return;
+            tosModal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        const openTos = (e) => {
+            if (e) e.preventDefault();
+            if (!tosModal) return;
+            tosModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        if (window.location.hash === '#open-tos' || window.location.hash === '#tos') {
+            openTos();
+        }
+
+        if (openTosLink) {
+            openTosLink.addEventListener('click', openTos);
+        }
+
+        if (closeTosBtn) {
+            closeTosBtn.addEventListener('click', closeTos);
+        }
+
+        if (tosModal) {
+            tosModal.addEventListener('click', (e) => {
+                if (e.target === tosModal) closeTos();
+            });
+        }
 
         const closePlatformModal = () => {
             if (!platformModal) return;
@@ -369,53 +667,101 @@ class NoteBunsApp {
 
         const openPlatformModal = () => {
             if (!platformModal) return;
+            closeThanksModal();
             platformModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         };
 
-        if (downloadBtn && modal) {
-            downloadBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                modal.classList.add('active');
-                document.body.style.overflow = 'hidden';
+        const closeThanksModal = () => {
+            if (!thanksModal) return;
+            thanksModal.classList.remove('active');
+            document.body.style.overflow = '';
+        };
+
+        const openThanksModal = () => {
+            if (!thanksModal) return;
+            closePlatformModal();
+            thanksModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        };
+
+        if (thanksCloseTop) thanksCloseTop.addEventListener('click', closeThanksModal);
+        if (thanksCloseBtn) thanksCloseBtn.addEventListener('click', closeThanksModal);
+        if (thanksOpenPlatformBtn) thanksOpenPlatformBtn.addEventListener('click', openPlatformModal);
+        if (thanksModal) {
+            thanksModal.addEventListener('click', (e) => {
+                if (e.target === thanksModal) closeThanksModal();
             });
         }
 
-        if (agreeBtn && modal) {
-            agreeBtn.addEventListener('click', () => {
-                modal.classList.remove('active');
-                if (platformModal) {
-                    openPlatformModal();
+        const startWindowsDownload = (showToast = true) => {
+            const path = cfg.launcherWindowsPath;
+            const name = path.split('/').pop() || 'NoteBuns Launcher.exe';
+            this.triggerLauncherDownload(path, name);
+            lastDownloadAction = { type: 'file', href: path, filename: name };
+            if (showToast) this.showLauncherDownloadToast('Загрузка лаунчера для Windows началась...');
+        };
+
+        const startGithubRedirect = (osLabel, showToast = true) => {
+            window.open(githubReleasesUrl, '_blank', 'noopener,noreferrer');
+            lastDownloadAction = { type: 'url', href: githubReleasesUrl };
+            if (showToast) this.showLauncherDownloadToast(`Переход на GitHub Releases (${osLabel})...`);
+        };
+
+        const retryLastDownload = () => {
+            if (!lastDownloadAction || lastDownloadAction.type === 'file') {
+                startWindowsDownload(true);
+                return;
+            }
+            window.open(lastDownloadAction.href || githubReleasesUrl, '_blank', 'noopener,noreferrer');
+            this.showLauncherDownloadToast('Повторный переход на страницу загрузки...');
+        };
+
+        if (thanksRetryBtn) {
+            thanksRetryBtn.addEventListener('click', retryLastDownload);
+        }
+
+        // Download Launcher button logic (Auto OS Selection)
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const os = this.detectOS();
+                if (os === 'windows') {
+                    startWindowsDownload(true);
+                    openThanksModal();
+                } else if (os === 'mac') {
+                    startGithubRedirect('macOS', true);
+                    openThanksModal();
+                } else if (os === 'linux') {
+                    startGithubRedirect('Linux', true);
+                    openThanksModal();
                 } else {
-                    document.body.style.overflow = '';
-                    const cfg = getNotebunsConfig();
-                    const path = cfg.launcherWindowsPath;
-                    const name = path.split('/').pop() || 'launcher';
-                    this.triggerLauncherDownload(path, name);
-                    this.showLauncherDownloadToast('Загрузка лаунчера началась...');
+                    openPlatformModal();
                 }
             });
         }
 
-        const cfg = getNotebunsConfig();
-
-        if (winBtn && platformModal) {
+        if (winBtn) {
             winBtn.addEventListener('click', () => {
-                const path = cfg.launcherWindowsPath;
-                const name = path.split('/').pop() || 'NoteBuns Launcher.exe';
-                this.triggerLauncherDownload(path, name);
+                startWindowsDownload(true);
                 closePlatformModal();
-                this.showLauncherDownloadToast('Загрузка лаунчера для Windows началась...');
+                openThanksModal();
             });
         }
 
-        if (linuxBtn && platformModal) {
+        if (linuxBtn) {
             linuxBtn.addEventListener('click', () => {
-                const path = cfg.launcherLinuxPath;
-                const name = path.split('/').pop() || 'NoteBuns-Launcher-Linux.AppImage';
-                this.triggerLauncherDownload(path, name);
+                startGithubRedirect('Linux', true);
                 closePlatformModal();
-                this.showLauncherDownloadToast('Загрузка лаунчера для Linux началась...');
+                openThanksModal();
+            });
+        }
+
+        if (macBtn) {
+            macBtn.addEventListener('click', () => {
+                startGithubRedirect('macOS', true);
+                closePlatformModal();
+                openThanksModal();
             });
         }
 
@@ -423,10 +769,236 @@ class NoteBunsApp {
             platformCancel.addEventListener('click', () => {
                 closePlatformModal();
             });
+            platformModal.addEventListener('click', (e) => {
+                if (e.target === platformModal) closePlatformModal();
+            });
         }
+    }
+
+    // 11. News grid from remote news_v3.json
+    async initNews() {
+        const grid = document.getElementById('news-grid');
+        const modal = document.getElementById('news-modal');
+        if (!grid || !modal) return;
+
+        const playerRoot = document.getElementById('lite-player');
+        this.newsPlayer = playerRoot ? new LiteMediaPlayer(playerRoot) : null;
+        this.newsItems = [];
+
+        const closeBtn = document.getElementById('news-modal-close');
+        closeBtn?.addEventListener('click', () => this.closeNewsModal());
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) this.closeNewsModal();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                this.closeNewsModal();
+            }
+        });
+
+        const cfg = getNotebunsConfig();
+        const bust = (url) => `${url}${url.includes('?') ? '&' : '?'}_=${Date.now()}`;
+
+        const applyNews = (data) => {
+            this.newsItems = Array.isArray(data) ? data : (data.items || data.news || []);
+            if (!this.newsItems.length) return false;
+            this.renderNewsGrid(grid);
+            return true;
+        };
+
+        // 1) Встроенный news-data.js — работает без CORS на любом хостинге
+        if (Array.isArray(window.NOTEBUNS_NEWS) && applyNews(window.NOTEBUNS_NEWS)) {
+            // На localhost дополнительно обновим с live API, если доступен
+            if (cfg.newsUrl === '/api/news') {
+                fetch(bust('/api/news'), { cache: 'no-store' })
+                    .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+                    .then((data) => applyNews(data))
+                    .catch(() => {});
+            }
+            return;
+        }
+
+        // 2) Fetch-фолбэки
+        const candidates = [];
+        if (cfg.newsUrl) candidates.push(cfg.newsUrl);
+        if (cfg.newsUrl !== 'news.json') candidates.push('news.json');
+
+        let loaded = false;
+        let lastError = null;
+        for (const url of candidates) {
+            try {
+                const response = await fetch(bust(url), { cache: 'no-store' });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                if (applyNews(data)) {
+                    loaded = true;
+                    break;
+                }
+            } catch (error) {
+                lastError = error;
+                console.warn(`News load failed for ${url}:`, error);
+            }
+        }
+
+        if (!loaded) {
+            console.error('News load failed:', lastError);
+            grid.innerHTML = '<div class="news-error">Не удалось загрузить новости. Попробуйте позже.</div>';
+        }
+    }
+
+    formatNewsDate(value) {
+        if (!value) return '';
+        // YYYY-MM-DD — без сдвига часового пояса
+        const isoDay = String(value).match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        const date = isoDay
+            ? new Date(Number(isoDay[1]), Number(isoDay[2]) - 1, Number(isoDay[3]))
+            : new Date(value);
+        if (Number.isNaN(date.getTime())) return String(value);
+        return date.toLocaleDateString('ru-RU', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+    }
+
+    parseSpan(span) {
+        const match = String(span || '1x1').toLowerCase().match(/^(\d+)\s*[x×]\s*(\d+)$/);
+        if (!match) return { cols: 1, rows: 1, key: '1x1' };
+        const cols = Math.min(4, Math.max(1, parseInt(match[1], 10)));
+        const rows = Math.min(2, Math.max(1, parseInt(match[2], 10)));
+        return { cols, rows, key: `${cols}x${rows}` };
+    }
+
+    renderNewsGrid(grid) {
+        if (!this.newsItems.length) {
+            grid.innerHTML = '<div class="news-empty">Пока нет новостей — загляните позже.</div>';
+            return;
+        }
+
+        grid.innerHTML = '';
+        const tiles = this.newsItems.map((item, index) => {
+            const span = this.parseSpan(item.span);
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = `news-tile news-tile-span-${span.key} reveal`;
+            btn.dataset.newsIndex = String(index);
+
+            const media = document.createElement('div');
+            media.className = 'news-tile-media';
+            if (item.image) {
+                media.style.backgroundImage = `url(${JSON.stringify(String(item.image))})`;
+            }
+
+            const shade = document.createElement('div');
+            shade.className = 'news-tile-shade';
+
+            const body = document.createElement('div');
+            body.className = 'news-tile-body';
+
+            const dateText = this.formatNewsDate(item.date);
+            if (dateText) {
+                const dateEl = document.createElement('time');
+                dateEl.className = 'news-tile-date';
+                dateEl.dateTime = item.date || '';
+                dateEl.textContent = dateText;
+                body.appendChild(dateEl);
+            }
+
+            const title = document.createElement('h3');
+            title.className = 'news-tile-title';
+            title.textContent = item.title || 'Новость';
+            body.appendChild(title);
+
+            if (item.description) {
+                const desc = document.createElement('p');
+                desc.className = 'news-tile-desc';
+                desc.textContent = item.description;
+                body.appendChild(desc);
+            }
+
+            btn.append(media, shade, body);
+            btn.addEventListener('click', () => this.openNewsModal(item));
+            return btn;
+        });
+
+        tiles.forEach((tile) => grid.appendChild(tile));
+        this.observeReveal(tiles);
+
+        const cursor = document.querySelector('.custom-cursor');
+        if (cursor) {
+            tiles.forEach((tile) => {
+                tile.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+                tile.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+            });
+        }
+    }
+
+    openNewsModal(item) {
+        const modal = document.getElementById('news-modal');
+        if (!modal || !item) return;
+
+        const dateEl = document.getElementById('news-modal-date');
+        const titleEl = document.getElementById('news-modal-title');
+        const descEl = document.getElementById('news-modal-description');
+        const linkEl = document.getElementById('news-modal-link');
+
+        const dateText = this.formatNewsDate(item.date);
+        if (dateEl) {
+            dateEl.textContent = dateText;
+            dateEl.dateTime = item.date || '';
+            dateEl.hidden = !dateText;
+        }
+        if (titleEl) titleEl.textContent = item.title || 'Новость';
+        if (descEl) descEl.textContent = item.description || '';
+
+        if (linkEl) {
+            const href = String(item.link || '').trim();
+            if (href) {
+                linkEl.href = href;
+                linkEl.hidden = false;
+            } else {
+                linkEl.hidden = true;
+                linkEl.removeAttribute('href');
+            }
+        }
+
+        this.newsPlayer?.open(item);
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeNewsModal() {
+        const modal = document.getElementById('news-modal');
+        if (!modal) return;
+        modal.classList.remove('active');
+        this.newsPlayer?.close();
+        document.body.style.overflow = '';
     }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     new NoteBunsApp();
 });
+
+
+// --- Принудительный сброс устаревшего кэша браузера при входе на сайт ---
+(function autoFlushBrowserCache() {
+    try {
+        const CURRENT_DEPLOY = 'notebuns-2026-09-04-v10';
+        const lastDeploy = localStorage.getItem('notebuns_deploy_sig');
+        if (lastDeploy !== CURRENT_DEPLOY) {
+            localStorage.setItem('notebuns_deploy_sig', CURRENT_DEPLOY);
+            if ('caches' in window) {
+                caches.keys().then(keys => keys.forEach(k => caches.delete(k)));
+            }
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations().then(regs => {
+                    regs.forEach(r => r.unregister());
+                });
+            }
+            sessionStorage.clear();
+        }
+    } catch (err) {
+        console.debug('Cache auto-flush:', err);
+    }
+})();
