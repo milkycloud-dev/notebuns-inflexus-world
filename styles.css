@@ -618,6 +618,11 @@ h3,
     color: #55FF55;
 }
 
+.role.lico {
+    background: rgba(255, 170, 0, 0.2);
+    color: #FFAA00;
+}
+
 /* Rules Page Content */
 .rules-container {
     max-width: 900px;
