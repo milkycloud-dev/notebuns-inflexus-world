@@ -1,9 +1,11 @@
 /**
- * NoteBuns site URLs — замените externalStoreUrl на адрес вашей витрины доната.
- * Файлы лаунчера положите в папку downloads/ с именами ниже (или измените пути здесь).
+ * NoteBuns site URLs and launcher paths.
  */
 window.NOTEBUNS_CONFIG = {
-    externalStoreUrl: 'https://notebuns.easydonate.ru/',
+    externalStoreUrl: '/store',
     launcherWindowsPath: 'downloads/NoteBuns Launcher.exe',
-    launcherLinuxPath: 'downloads/NoteBuns-Launcher-Linux.AppImage'
+    launcherGithubReleasesUrl: 'https://github.com/milkycloud-dev/melody-launcher-minecraft/releases',
+    newsUrl: (typeof location !== 'undefined' && /^(localhost|127\.0\.0\.1)$/.test(location.hostname))
+        ? '/api/news'
+        : 'news.json'
 };
