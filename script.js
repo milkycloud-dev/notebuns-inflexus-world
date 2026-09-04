@@ -1,3 +1,38 @@
+
+// --- Launcher Environment & Immediate Cache Purge Engine ---
+(function() {
+    try {
+        const isLauncher = window.self !== window.top || 
+                           window.location.search.includes('launcher=') || 
+                           window.location.search.includes('in_app=');
+        if (isLauncher) {
+            document.documentElement.classList.add('in-launcher');
+            if (document.body) document.body.classList.add('in-launcher');
+            else document.addEventListener('DOMContentLoaded', () => document.body && document.body.classList.add('in-launcher'));
+        }
+
+        // Automatic Cache Purge on every page entrance
+        if ('caches' in window) {
+            caches.keys().then(names => names.forEach(name => caches.delete(name)));
+        }
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(regs => {
+                regs.forEach(reg => reg.unregister());
+            });
+        }
+        sessionStorage.clear();
+
+        // Hard reload if served from BFCache
+        window.addEventListener('pageshow', function(e) {
+            if (e.persisted) {
+                window.location.reload();
+            }
+        });
+    } catch(e) {
+        console.debug('Launcher/Cache init:', e);
+    }
+})();
+
 // Iframe environment detection for launcher embedded views
 (function detectIframe() {
     try {
